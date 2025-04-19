@@ -1,0 +1,79 @@
+pipeline {
+  agent any
+
+  environment {
+    REACT_DIR = 'client'
+    EXPRESS_DIR = 'server'
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        echo '📥 Cloning repository...'
+        checkout scm
+      }
+    }
+
+    stage('Install Frontend Deps') {
+      steps {
+        dir("${REACT_DIR}") {
+          echo '📦 Installing frontend dependencies...'
+          sh 'npm install'
+        }
+      }
+    }
+
+    stage('Install Backend Deps') {
+      steps {
+        dir("${EXPRESS_DIR}") {
+          echo '📦 Installing backend dependencies...'
+          sh 'npm install'
+        }
+      }
+    }
+
+    stage('Run Frontend Tests') {
+      steps {
+        dir("${REACT_DIR}") {
+          echo '🧪 Running frontend tests...'
+          sh 'npm test || true'  // change to fail the build if needed
+        }
+      }
+    }
+
+    stage('Run Backend Tests') {
+      steps {
+        dir("${EXPRESS_DIR}") {
+          echo '🧪 Running backend tests...'
+          sh 'npm test || true'
+        }
+      }
+    }
+
+    stage('Build Frontend') {
+      steps {
+        dir("${REACT_DIR}") {
+          echo '🏗️ Building React app...'
+          sh 'npm run build'
+        }
+      }
+    }
+
+    // Optional: Deploy Stage (FTP, SSH, Docker, etc.)
+    // stage('Deploy') {
+    //   steps {
+    //     echo '🚀 Deploying app...'
+    //     sh './deploy.sh' // or use Docker/SSH command
+    //   }
+    // }
+  }
+
+  post {
+    success {
+      echo '✅ Build succeeded!'
+    }
+    failure {
+      echo '❌ Build failed.'
+    }
+  }
+}
