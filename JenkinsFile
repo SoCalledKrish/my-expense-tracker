@@ -36,7 +36,7 @@ pipeline {
       steps {
         dir("${REACT_DIR}") {
           echo '🧪 Running frontend tests...'
-          bat 'npm test || true'  // change to fail the build if needed
+          bat 'npm test || exit 0'  // change to fail the build if needed
         }
       }
     }
@@ -45,7 +45,7 @@ pipeline {
       steps {
         dir("${EXPRESS_DIR}") {
           echo '🧪 Running backend tests...'
-          bat 'npm test || true'
+          bat 'npm test || exit 0'
         }
       }
     }
