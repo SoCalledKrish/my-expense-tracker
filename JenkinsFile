@@ -18,7 +18,7 @@ pipeline {
       steps {
         dir("${REACT_DIR}") {
           echo '📦 Installing frontend dependencies...'
-          sh 'npm install'
+          bat 'npm install'
         }
       }
     }
@@ -27,7 +27,7 @@ pipeline {
       steps {
         dir("${EXPRESS_DIR}") {
           echo '📦 Installing backend dependencies...'
-          sh 'npm install'
+          bat 'npm install'
         }
       }
     }
@@ -36,7 +36,7 @@ pipeline {
       steps {
         dir("${REACT_DIR}") {
           echo '🧪 Running frontend tests...'
-          sh 'npm test || true'  // change to fail the build if needed
+          bat 'npm test || true'  // change to fail the build if needed
         }
       }
     }
@@ -45,7 +45,7 @@ pipeline {
       steps {
         dir("${EXPRESS_DIR}") {
           echo '🧪 Running backend tests...'
-          sh 'npm test || true'
+          bat 'npm test || true'
         }
       }
     }
@@ -54,7 +54,7 @@ pipeline {
       steps {
         dir("${REACT_DIR}") {
           echo '🏗️ Building React app...'
-          sh 'npm run build'
+          bat 'npm run build'
         }
       }
     }
