@@ -2,8 +2,8 @@ pipeline {
   agent any
 
   environment {
-    REACT_DIR = 'client'
-    EXPRESS_DIR = 'server'
+    REACT_DIR = 'frontend'
+    EXPRESS_DIR = 'backend'
   }
 
   stages {
