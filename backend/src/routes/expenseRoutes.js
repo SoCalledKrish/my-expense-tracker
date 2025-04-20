@@ -209,6 +209,7 @@ const router = express.Router();
 
 // ✅ Auth check
 function isAuthenticated(req, res, next) {
+    console.log("🧪 isAuthenticated middleware - req.user:", req.user); // Debugging
   if (req.isAuthenticated() && req.user?.id) {
     return next();
   }
@@ -245,13 +246,16 @@ router.post("/expenses", isAuthenticated, async (req, res) => {
 // ✅ Get all expenses for the logged-in user
 router.get("/expenses", isAuthenticated, async (req, res) => {
     try {
-        const sql = "SELECT * FROM expenses WHERE user_id = ?";
-        const [results] = await db.query(sql, [req.user.id]);
-        res.json(results);
+      console.log("🧪 req.user:", req.user); // Debugging
+      const sql = "SELECT * FROM expenses WHERE user_id = ?";
+      const [results] = await db.query(sql, [req.user.id]);
+      res.json(results);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+      console.error("🔥 Error in GET /api/expenses:", err); // Log the error
+      res.status(500).json({ error: err.message });
     }
-});
+  });
+  
 
 // ✅ Get a single expense by ID
 router.get("/expenses/:id", isAuthenticated, async (req, res) => {
