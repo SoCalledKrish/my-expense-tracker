@@ -36,6 +36,14 @@ app.get("/", (req, res) => {
   res.send("🚀 Expense Tracker API is running");
 });
 
+
+app.use((req, res, next) => {
+    res.setHeader("Content-Security-Policy", 
+      "default-src 'self'; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'");
+    next();
+  });
+
+
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
