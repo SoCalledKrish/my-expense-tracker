@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const passport = require('passport');
 const expenseRoutes = require('./routes/expenseRoutes');
 const authRoutes = require('./routes/authRoutes');
+const helmet =require("helmet");
 require('./config/passport');
 
 dotenv.config();
@@ -37,11 +38,19 @@ app.get("/", (req, res) => {
 });
 
 
-app.use((req, res, next) => {
-    res.setHeader("Content-Security-Policy", 
-      "default-src 'self'; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'");
-    next();
-  });
+
+
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      fontSrc: ["'self'", "data:"], // ✅ Allow base64 fonts
+      styleSrc: ["'self'", "'unsafe-inline'"], // for inline styles (if any)
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"], // optional
+    }
+  }
+}));
+
 
 
 // Start server
