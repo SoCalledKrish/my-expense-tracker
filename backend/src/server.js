@@ -13,7 +13,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: "https://my-expense-tracker-w1e0.onrender.com",
+  origin: "https://my-expense-tracker-1-585o.onrender.com",
   credentials: true,
 }));
 app.use(express.json());
